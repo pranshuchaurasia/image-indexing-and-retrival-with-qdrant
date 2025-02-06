@@ -68,6 +68,6 @@ def convert_pdf_to_images(pdf_folder):
 
 # Example usage
 if __name__ == "__main__":
-    # Replace 'X' with your PDF folder path
+    # Replace with your PDF folder path
     pdf_folder = pdf_folder_path
     convert_pdf_to_images(pdf_folder)
