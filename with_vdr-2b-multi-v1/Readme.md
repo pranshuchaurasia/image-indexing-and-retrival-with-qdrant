@@ -1,6 +1,6 @@
 # Visual Document Retrieval System
 
-An implementation of a visual document retrieval system using the VDR-2B-Multi-V1 model, which enables multilingual document search through image embeddings without requiring OCR.
+An implementation of a visual document retrieval system using the VDR-2B-Multi-V1 model with qdrant, which enables multilingual document search through image embeddings without requiring OCR.
 
 ## Features
 
