@@ -1,0 +1,10 @@
+torch
+qdrant-client
+colpali-engine>=0.3.0
+pdf2image
+python-dotenv
+tqdm
+pillow
+numpy
+llama-index-embeddings-huggingface
+transformers
