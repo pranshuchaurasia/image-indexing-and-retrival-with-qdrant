@@ -114,6 +114,7 @@ python with_vdr-2b-multi-v1/query_vdr_2b_multi_v1.py
 ## Notes
 
 - Models are loaded offline using `local_files_only=True`
+- To use offline models, download the embeddings and configure the local path in your environment variables.
 - Recommended batch size: 16 for multi-vector models (ColPali/ColQwen)
 - Tested on **Windows** with **NVIDIA RTX 6000 ADA 48GB**
 - Runs **without flash-attention-2** (not required)
