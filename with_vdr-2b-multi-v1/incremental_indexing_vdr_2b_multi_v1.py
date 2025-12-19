@@ -245,11 +245,43 @@ class VDRIndexer:
 
 
 if __name__ == "__main__":
-    # Example usage
-    folders_to_index = ["path1", "path2"]  # Replace with actual folder paths
+    import sys
+    from pathlib import Path
     
-    # Initialize indexer
+    # Add shared folder to path for imports
+    sys.path.insert(0, str(Path(__file__).parent.parent / 'shared'))
+    try:
+        from get_all_folder_details import get_subfolder_paths
+    except ImportError:
+        def get_subfolder_paths(main_folder):
+            subfolder_paths = []
+            for item in os.listdir(main_folder):
+                full_path = os.path.join(main_folder, item)
+                if os.path.isdir(full_path):
+                    subfolder_paths.append(str(Path(full_path)))
+            return subfolder_paths
+    
+    # Get folder paths from environment or discover them automatically
+    converted_images_folder = os.getenv('converted_images_folder')
+    
+    if converted_images_folder:
+        folders_to_index = get_subfolder_paths(converted_images_folder)
+        logger.info(f"Auto-discovered {len(folders_to_index)} folders to index")
+    else:
+        # Fallback: specify folders manually
+        folders_to_index = [
+            # Add your folder paths here, or set converted_images_folder in .env
+            # e.g., "D:/path/to/images/folder1",
+        ]
+    
+    if not folders_to_index:
+        logger.error(
+            "No folders to index. Either:\n"
+            "1. Set 'converted_images_folder' in .env to auto-discover subfolders, or\n"
+            "2. Add folder paths to the 'folders_to_index' list in this script."
+        )
+        sys.exit(1)
+    
+    # Initialize and run indexer
     indexer = VDRIndexer(collection_name=collection_name)
-    
-    # Process all folders
     indexer.index_folders(folders_to_index)
