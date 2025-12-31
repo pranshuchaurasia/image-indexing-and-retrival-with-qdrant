@@ -4,7 +4,7 @@ import time
 
 # Third-party imports
 import torch
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from dotenv import load_dotenv
 
@@ -33,8 +33,10 @@ class VDRSearcher:
         Initialize the VDR searcher with model and database connection.
         """
         # Initialize model with GPU if available
-        self.model = HuggingFaceEmbedding(
-            model_name=model_name,
+        # logic: HuggingFaceEmbedding fails with this custom model due to tokenization issues
+        # switching to direct SentenceTransformer usage which is verified to work
+        self.model = SentenceTransformer(
+            model_name_or_path=model_name,
             device="cuda" if torch.cuda.is_available() else "cpu",
             trust_remote_code=True
         )
@@ -60,7 +62,17 @@ class VDRSearcher:
         """
         try:
             # Generate embedding for query text
-            query_vector = self.model.get_query_embedding(query_text)
+            # This custom model returns a dict containing 'sentence_embedding'
+            embedding_output = self.model.encode(query_text)
+            
+            if isinstance(embedding_output, dict) and 'sentence_embedding' in embedding_output:
+                query_vector = embedding_output['sentence_embedding']
+            else:
+                query_vector = embedding_output
+
+            # Ensure we have a list of floats for Qdrant
+            if hasattr(query_vector, 'tolist'):
+                query_vector = query_vector.tolist()
             
             # Search in vector database
             search_result = self.client.query_points(
