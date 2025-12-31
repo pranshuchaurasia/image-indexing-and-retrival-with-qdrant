@@ -158,7 +158,7 @@ class VDRIndexer:
         
         return images, valid_paths
 
-    def index_folders(self, folder_paths, batch_size=1):
+    def index_folders(self, folder_paths, batch_size=16):
         """
         Index images from multiple folders with batch processing.
         
