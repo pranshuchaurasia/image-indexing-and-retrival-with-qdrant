@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "title": "Jina Embeddings V4 Overview",
+        "content": "Jina Embeddings V4 is a versatile multimodal model that handles both text and images. It supports standard dense vectors for efficiency and multivectors (ColBERT style) for high-precision retrieval tasks. It uses an 8192 token context window."
+    },
+    {
+        "id": "2",
+        "title": "Qdrant Vector Database",
+        "content": "Qdrant is a vector similarity search engine. It provides a production-ready service with a convenient API to store, search, and manage points - vectors with an additional payload. Qdrant is tailored to extended filtering support."
+    },
+    {
+        "id": "3",
+        "title": "Retrieval Augmented Generation (RAG)",
+        "content": "RAG is a technique that enhances the accuracy and reliability of generative AI models with facts fetched from external sources. By connecting an LLM to a private database of text or images, RAG allows the model to answer questions about specific data it wasn't trained on."
+    },
+    {
+        "id": "4",
+        "title": "Late Interaction Models",
+        "content": "Late interaction models like ColBERT delay the interaction between query and document representations until the retrieval step. Instead of collapsing the document into a single vector, they keep token-level embeddings and compute maximum similarity across all query-document token pairs."
+    },
+    {
+        "id": "5",
+        "title": "Matryoshka Representation Learning",
+        "content": "MRL allows embedding models to learn representations where the most important information is encoded in the first few dimensions. This enables shortening the vectors (truncation) for storage savings while maintaining high retrieval performance."
+    }
+]
