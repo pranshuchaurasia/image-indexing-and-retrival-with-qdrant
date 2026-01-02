@@ -1,8 +1,9 @@
 # Image Indexing and Retrieval with Qdrant
 
-A visual document retrieval system using **Qdrant** vector database with three embedding models: **ColPali**, **ColQwen2**, and **VDR-2B-Multi-V1**.
+A visual document retrieval system using **Qdrant** vector database with four embedding models: **ColPali**, **ColQwen2**, **VDR-2B-Multi-V1**, and **Jina Embeddings v4**.
 
 > **Note:** This code is designed to run models **offline** from local paths. No internet connection is required during inference.
+> **Note:** The Jina V4 text embedding scripts (`with_jina_text_v4`) are added primarily for reference to demonstrate single-vector text indexing, as they share similarities with other dense retrieval methods.
 
 ## Repository Structure
 
@@ -13,7 +14,9 @@ A visual document retrieval system using **Qdrant** vector database with three e
 │   └── get_all_folder_details.py
 ├── with_vdr-2b-multi-v1/
 ├── with_colpali_v1.3/
-└── with_colqwen2_v1.0/
+├── with_colqwen2_v1.0/
+├── with_jina_embeddings_v4/
+└── with_jina_text_v4/
 ```
 
 ## Models
@@ -23,6 +26,7 @@ A visual document retrieval system using **Qdrant** vector database with three e
 | **VDR-2B-Multi-V1** | [vdr-2b-multi-v1](https://huggingface.co/llamaindex/vdr-2b-multi-v1) |
 | **ColPali v1.3** | [colpali-v1.3](https://huggingface.co/vidore/colpali-v1.3) |
 | **ColQwen2 v1.0** | [colqwen2-v1.0](https://huggingface.co/vidore/colqwen2-v1.0) |
+| **Jina Embeddings v4** | [jina-embeddings-v4](https://huggingface.co/jinaai/jina-embeddings-v4) |
 
 ## Key Features
 
@@ -105,16 +109,33 @@ python with_colqwen2_v1.0/qdrant_query_with_colqwen.py
 **Option C: VDR-2B-Multi-V1 (Single Vector, 1536D)**
 ```bash
 # Index
-python with_vdr-2b-multi-v1/incremental_indexing_vdr_2b_multi_v1.py
+ python with_vdr-2b-multi-v1/incremental_indexing_vdr_2b_multi_v1.py
 
 # Search (Must use VDR searcher)
 python with_vdr-2b-multi-v1/query_vdr_2b_multi_v1.py
 ```
 
+**Option D: Jina V4 (Image Multivector, 128D)**
+```bash
+# Index
+python with_jina_embeddings_v4/jina_v4_image_indexer.py
+
+# Search (Multivector MaxSim)
+python with_jina_embeddings_v4/jina_v4_image_retrieval.py
+```
+
+**Option E: Jina V4 (Text Single-vector, 2048D)**
+```bash
+# Index (with sample JSON)
+python with_jina_text_v4/jina_v4_text_indexer.py
+
+# Search (Dense Vector)
+python with_jina_text_v4/jina_v4_text_retrieval.py
+```
+
 ## Notes
 
 - Models are loaded offline using `local_files_only=True`
-- To use offline models, download the embeddings and configure the local path in your environment variables.
 - Recommended batch size: 16 for multi-vector models (ColPali/ColQwen)
 - Tested on **Windows** with **NVIDIA RTX 6000 ADA 48GB**
 - Runs **without flash-attention-2** (not required)
